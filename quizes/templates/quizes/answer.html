@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Responder Quiz{% endblock title %}
+
+{% block content %}
+<h2>Responder Quiz</h2>
+
+<form class="quizForm" action="" method="post" novalidate>
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+    {% csrf_token %}
+</form>
+
+{% endblock content %}
