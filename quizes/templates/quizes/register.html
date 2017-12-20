@@ -6,18 +6,14 @@
 <h2>Criar Quiz</h2>
 
 {% if submitted %}
-<p class="success">Your quote was submitted successfully. Thank you.</p>
+<p class="success">Your quiz was submitted successfully. Thank you.</p>
 
 {% else %}
-<form class="quizForm" action="" method="post" novalidate>
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td>&nbsp;</td>
-            <td><input type="submit" value="Submit"></td>
-        </tr>
-    </table>
+<form action="" method="post" novalidate>
     {% csrf_token %}
+    {{ fatherquizform }}
+    {{ quizform }}
+    <input type="submit" value="Send" />
 </form>
 {% endif %}
 
