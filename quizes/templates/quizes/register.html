@@ -4,16 +4,26 @@
 
 {% block content %}
 <h2>Criar Quiz</h2>
-
+<br/>
 {% if submitted %}
 <p class="success">Your quiz was submitted successfully. Thank you.</p>
 
 {% else %}
 <form action="" method="post" novalidate>
     {% csrf_token %}
+    <div class="form-group">
     {{ fatherquizform }}
-    {{ quizform }}
-    <input type="submit" value="Send" />
+    </div>
+    <br/>
+    <div class="form-group">
+    {{ formset.management_form }}
+    {% for form in formset %}
+        {{ form }}
+    {% endfor %}
+    </div>
+    <button type="button" class="btn btn-link">Adicionar nova pergunta</button><br/>
+    <br/>
+    <input class="btn btn-primary" type="submit" value="Salvar Quiz" />   
 </form>
 {% endif %}
 
