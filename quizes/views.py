@@ -6,9 +6,13 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-#Import for the formset
+# Import for the formset
 from django.forms.formsets import formset_factory
 from django.forms import modelformset_factory
+
+# Imports for User creation
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Quiz, FatherQuiz
 from .forms import QuizForm, FatherQuizForm
@@ -17,6 +21,17 @@ from .forms import QuizForm, FatherQuizForm
 def index(request):
     return render(request, "quizes/index.html")
 
+# User registration
+class Register(CreateView):
+    template_name = 'registration/register.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('register-success')
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.success_url)
+
+# Quiz registration
 class QuizRegister(View):
     
     def get(self, request, *args, **kwargs):
@@ -37,7 +52,7 @@ class QuizRegister(View):
         'fatherquizform': fatherquizform,
         'submitted': submitted
         }
-        return render(request, "quizes/register.html", context)
+        return render(request, "quizes/quiz_registration.html", context)
 
     def post(self, request, *args, **kwargs):
         submitted = False
@@ -48,9 +63,16 @@ class QuizRegister(View):
         # Instanciating forms
         fatherquizform = fatherquizform_formclass(request.POST)
         formset = QuizFormSet(request.POST)
-        # Validating forms
+        # Validating forms and saving
         if formset.is_valid() & fatherquizform.is_valid():
             fatherQuiz = fatherquizform.save(commit=False)
+            # Checking if the quiz was created by a specific user
+            try:
+                # If so, the quiz will be assigned to the user
+                fatherQuiz.username = request.user
+            except Exception:
+                # If not, it will take the control back to the next line
+                pass
             fatherQuiz.save()
             fatherQuiz.url = "http://127.0.0.1:8000/quiz/" + str(fatherQuiz.id)
             fatherQuiz.save()
@@ -58,13 +80,13 @@ class QuizRegister(View):
             for form in forms:
                 form.fatherquiz = fatherQuiz
                 form.save()
-            return HttpResponseRedirect('/register?submitted=True')
+            return HttpResponseRedirect('/quiz_registration?submitted=True')
         context = {
         'formset': formset, 
         'fatherquizform': fatherquizform,
         'submitted': submitted
         }
-        return render(request, "quizes/register.html", context)
+        return render(request, "quiz_registration.html", context)
             
 #class AnswerQuiz(View):
 #    form_class = QuizForm

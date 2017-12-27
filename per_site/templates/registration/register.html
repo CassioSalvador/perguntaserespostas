@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Login Page{% endblock title %}
+
+{% block content %}
+<h1>Registro de Usuário</h1>
+    <p>Insira seu username e password para registrar.</p>
+    <form method="post" action="">
+        <table>
+            <div class="form-group">
+                {{ form.as_table }}
+            </div>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input class="btn btn-primary" type="submit" value="Registrar"></td>
+            </tr>
+        </table>
+        <input type="hidden" name="next" value="{{ next }}" />
+        {% csrf_token %}
+    </form>
+{% endblock content %}

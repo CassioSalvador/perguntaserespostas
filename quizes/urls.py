@@ -5,5 +5,5 @@ from .views import QuizRegister
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'register/$', QuizRegister.as_view(), name='register')
+    url(r'quiz_registration/$', QuizRegister.as_view(), name='quiz_registration')
 ]
