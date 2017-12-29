@@ -3,7 +3,7 @@ from django.views import View
 from django.http import HttpResponseRedirect
 
 #Imports for the user management
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 
 # Import for the formset
@@ -37,7 +37,7 @@ class QuizRegister(View):
     def get(self, request, *args, **kwargs):
         submitted = False
         # Creating a new formset for displaying fields
-        QuizFormSet = formset_factory(QuizForm, extra=3)
+        QuizFormSet = formset_factory(QuizForm, extra=5)
         # Creating a new FatherQuizForm
         fatherquizform_formclass = FatherQuizForm
         # Defining initial values for the instances
@@ -74,20 +74,37 @@ class QuizRegister(View):
                 # If not, it will take the control back to the next line
                 pass
             fatherQuiz.save()
-            fatherQuiz.url = "http://127.0.0.1:8000/quiz/" + str(fatherQuiz.id)
+            fatherQuiz.url = "http://" + request.get_host() + "/quiz/" + str(fatherQuiz.id)
             fatherQuiz.save()
             forms = formset.save(commit=False)
             for form in forms:
                 form.fatherquiz = fatherQuiz
                 form.save()
-            return HttpResponseRedirect('/quiz_registration?submitted=True')
+            submitted = True
+            #return HttpResponseRedirect('/quiz_registration?submitted=True')
         context = {
-        'formset': formset, 
-        'fatherquizform': fatherquizform,
-        'submitted': submitted
+            'fatherquizurl': fatherQuiz.url,
+            'formset': formset, 
+            'fatherquizform': fatherquizform,
+            'submitted': submitted
         }
-        return render(request, "quiz_registration.html", context)
+        return render(request, "quizes/quiz_registration.html", context)
             
-#class AnswerQuiz(View):
-#    form_class = QuizForm
+class AnswerQuiz(View):
+    
+    def get(self, request, *args, **kwargs):
+        fatherquiz = FatherQuiz.objects.get(id=kwargs['fquiz_id'])
+        quizes = fatherquiz.quiz_set.all()
+        context = {
+            'fatherquiz': fatherquiz,
+            'quizes': quizes
+        }
+        
+        return render(request, "quizes/answer.html", context)
 
+    def post(self, request, *args, **kwargs):
+        return render(request, "quizes/answer.html")
+
+    # Ver como pegar o id do quiz pai passado na url
+    # Selecionar o model
+    # Dar loop e exibir quiz filhos
