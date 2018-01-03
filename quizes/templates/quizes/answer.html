@@ -1,23 +1,49 @@
 {% extends "base.html" %}
+{% load shuffle %}
 
 {% block title %}Responder Quiz{% endblock title %}
 
 {% block content %}
 <h1>Responder Quiz</h1>
+{% if submitted %}
+<p class="alert alert-primary">Resultado:</p>
+<p class="alert alert-success">Você acertou {{ score }} de 5 questões!</p>
+<h2>{{ fatherquiz.title }}</h2>
+{% for quiz,allanswer in listing %}
+    <br>
+    <h3>{{ quiz.question }}</h3>
+    <ul>
+    {% for item in items|index:forloop.counter0|shuffle %}
+        {% if item == quiz.right_option and item == allanswer %}
+            <li class="right-alternative">{{ item }}</li>
+        {% elif item != quiz.right_option and item == allanswer  %}
+            <li class="wrong-alternative">{{ item }}</li>
+        {% elif item == quiz.right_option and item != allanswer %}
+            <li class="right-alternative">{{ item }}</li>
+        {% else %}
+            <li class="alternative">{{ item }}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endfor %}
+
+{% else %}
 <form method="post" action="" novalidate>
     <h2>{{ fatherquiz.title }}</h2>
     {% for quiz in quizes %}
         {% csrf_token %}
+        <br>
         <h3>{{ quiz.question }}</h3>
-        <input type="radio" name="option" value="{{ quiz.question }}" > {{ quiz.question }}<br>
-        <input type="radio" name="option" value="{{ quiz.right_option }}"> {{ quiz.right_option }}<br>
-        <input type="radio" name="option" value="{{ quiz.first_option }}"> {{ quiz.first_option }}<br>
-        <input type="radio" name="option" value="{{ quiz.second_option }}"> {{ quiz.second_option }}<br>
-        <input type="radio" name="option" value="{{ quiz.fourth_option }}"> {{ quiz.fourth_option }}<br><br>
+        {% load shuffle %}
+        {% for item in items|index:forloop.counter0|shuffle %}
+            <input type="radio" name="option-{{ quiz.id }}" value="{{ item }}"> {{ item }}<br>
+        {% endfor %}
     {% endfor %}
+    <br>
     <input class="btn btn-success" type="submit" value="Conferir resultado">
     <br><br>
   </form> 
-
+{% endif %}
 {% endblock content %}
+
 

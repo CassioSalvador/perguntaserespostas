@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 #Imports for the user management
 from django.urls import reverse_lazy, reverse
@@ -14,12 +14,22 @@ from django.forms import modelformset_factory
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 
+# Imports for Quiz listing
+from django.views.generic import ListView
+
 from .models import Quiz, FatherQuiz
 from .forms import QuizForm, FatherQuizForm
 
 # Create your views here.
 def index(request):
     return render(request, "quizes/index.html")
+
+class FatherQuizList(ListView):
+    model = FatherQuiz
+    context_object_name = 'fatherquizes'
+
+    def get_queryset(self):
+        return FatherQuiz.objects.all()
 
 # User registration
 class Register(CreateView):
@@ -57,7 +67,7 @@ class QuizRegister(View):
     def post(self, request, *args, **kwargs):
         submitted = False
         # Creating a new modelformset for saving
-        QuizFormSet = modelformset_factory(Quiz, fields=('question', 'right_option', 'first_option', 'second_option', 'third_option', 'fourth_option'), extra=3)
+        QuizFormSet = modelformset_factory(Quiz, fields=('question', 'right_option', 'first_option', 'second_option', 'third_option', 'fourth_option'), extra=5)
         # Creating a new FatherQuizForm
         fatherquizform_formclass = FatherQuizForm
         # Instanciating forms
@@ -89,22 +99,57 @@ class QuizRegister(View):
             'submitted': submitted
         }
         return render(request, "quizes/quiz_registration.html", context)
-            
+
+# Quiz answering            
 class AnswerQuiz(View):
-    
+
     def get(self, request, *args, **kwargs):
+        submitted = False
+        # Selecting FatherQuiz from the route
         fatherquiz = FatherQuiz.objects.get(id=kwargs['fquiz_id'])
+        # Selecting all quizes related to FatherQuiz
         quizes = fatherquiz.quiz_set.all()
+        items = []
+        for quiz in quizes:
+            items.append([quiz.right_option, quiz.first_option, quiz.second_option, quiz.third_option, quiz.fourth_option])
+        if 'submitted' in request.GET:
+            submitted = True
         context = {
-            'fatherquiz': fatherquiz,
-            'quizes': quizes
+            'fatherQuiz': fatherquiz,
+            'quizes': quizes,
+            'items': items,
+            'submitted': submitted
         }
         
         return render(request, "quizes/answer.html", context)
 
     def post(self, request, *args, **kwargs):
-        return render(request, "quizes/answer.html")
-
-    # Ver como pegar o id do quiz pai passado na url
-    # Selecionar o model
-    # Dar loop e exibir quiz filhos
+        submitted = False
+        # Selecting FatherQuiz from the route
+        fatherquiz = FatherQuiz.objects.get(id=kwargs['fquiz_id'])
+        # Selecting all quizes related to FatherQuiz
+        quizes = fatherquiz.quiz_set.all()
+        answers = request.POST
+        items = []
+        allanswers = []
+        score = 0
+        for quiz in quizes:
+            items.append([quiz.right_option, quiz.first_option, quiz.second_option, quiz.third_option, quiz.fourth_option])
+            answer = answers.get('option-'+str(quiz.id))
+            if quiz.right_option == answer:
+                score += 1
+            else:
+                pass
+            allanswers.append(answer)
+        submitted = True
+        listing = zip(quizes,allanswers)
+        context = {
+            'fatherQuiz': fatherquiz,
+            'quizes': quizes,
+            'items': items,
+            'submitted': submitted,
+            'score': score,
+            'allanswers': allanswers,
+            'listing': listing
+        }
+        return render(request, "quizes/answer.html", context)

@@ -34,6 +34,26 @@ body {
     margin-bottom: 1.5em;
 }
 
+.alternative{
+    list-style: none;
+}    
+
+.right-alternative{
+    list-style: none;
+    color: green;
+    font-weight: bold;
+}
+
+.wrong-alternative{
+    list-style: none;
+    color: red;
+    font-weight: bold;
+}
+
+.altrow {
+    background-color: #e0e0e0;
+}
+
 /* Customize container */
 @media (min-width: 48em) {
     .container {
