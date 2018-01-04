@@ -3,9 +3,11 @@
 {% block title %}Login Page{% endblock title %}
 
 {% block content %}
-<h1>Login</h1>
-    <p>Você precisa estar logado para salvar quizes em seu perfil.</p>
-
+<h1 class="title">Login</h1>
+<br>
+<hr>
+<br>
+    <p class="alert alert-primary loginmsg" role="alert">Você precisa estar logado para salvar quizes em seu perfil.</p>
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <table>
@@ -14,7 +16,7 @@
             </div>
             <tr>
                 <td>&nbsp;</td>
-                <td><input class="btn btn-primary" type="submit" value="Login"></td>
+                <td><input class="btn btn-primary btn-block loginbtn" type="submit" value="Login"></td>
             </tr>
         </table>
         <p>Ainda não tem registro? <a href="{% url 'register' %}">Registre-se aqui</a>.</p>

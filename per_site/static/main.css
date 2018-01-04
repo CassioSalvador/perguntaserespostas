@@ -35,23 +35,72 @@ body {
 }
 
 .alternative{
+    margin: 15px 0px 0px -40px;
     list-style: none;
 }    
 
 .right-alternative{
+    margin: 15px 0px 0px -40px;
     list-style: none;
-    color: green;
+    color: rgb(91, 181, 91);
     font-weight: bold;
 }
 
 .wrong-alternative{
+    margin: 15px 0px 0px -40px;
     list-style: none;
-    color: red;
+    color: rgb(219, 106, 106);
     font-weight: bold;
 }
 
 .altrow {
     background-color: #e0e0e0;
+}
+.title {
+    color: #595c5f;
+}
+
+.quiztitle {
+    color: #429af8;
+    text-align: center;
+}
+
+.question {
+    color: #74787a;
+    margin-top: 10px;
+}
+
+hr {
+    border-top: 1px bold #868e96;
+    height:1px;
+  }
+
+.alternative-radio {
+    margin: 15px 0px 0px 0px;
+}
+
+.details {
+    color: #73777a;
+}
+
+.instructions {
+    font-size: 1.2em;
+    font-weight: 450;
+    margin-top: 20px;
+    color: #64676b;
+}
+
+.addquestion {
+    margin-top: -60px;
+    margin-left: -10px;
+}
+
+.loginbtn {
+    margin-top: 10px;
+}
+
+.loginmsg {
+    margin-bottom: 30px;
 }
 
 /* Customize container */

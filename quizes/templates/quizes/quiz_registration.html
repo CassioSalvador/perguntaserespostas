@@ -2,9 +2,13 @@
 
 {% block title %}Criar Quiz{% endblock title %}
 
+{% block nav-createquiz %}<a class="nav-link active" href="/quiz_registration">Criar Quiz</a>{% endblock %}
+
 {% block content %}
-<h2>Criar Quiz</h2>
-<br/>
+<h1 class="title">Criar Quiz</h2>
+<br>
+<hr>
+<br>
 {% if submitted %}
 <p class="success">Seu quiz foi submetido com sucesso. Obrigado.</p>
 <p>Link para responder o quiz <a href="{{ fatherquizurl }}">{{ fatherquizurl }}</a></p>
@@ -20,10 +24,10 @@
     {{ formset.management_form }}
     {% for form in formset %}
         {{ form }}
+        <br><br>
     {% endfor %}
     </div>
-    <button type="button" class="btn btn-link">Adicionar nova pergunta</button><br/>
-    <br/>
+    <button type="button" class="btn btn-link addquestion">Adicionar nova pergunta (Em breve)</button><br/>
     <input class="btn btn-primary" type="submit" value="Salvar Quiz" />   
 </form>
 {% endif %}

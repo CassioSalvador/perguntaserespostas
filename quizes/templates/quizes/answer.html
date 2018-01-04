@@ -3,40 +3,51 @@
 
 {% block title %}Responder Quiz{% endblock title %}
 
+{% block nav-answerquiz %}<a class="nav-link active" href="/quiz_list">Responder Quiz</a>{% endblock %}
+
 {% block content %}
-<h1>Responder Quiz</h1>
+<h1 class="title">Responder Quiz</h1>
+<br>
+<hr>
+<br>
 {% if submitted %}
+<h2 class="quiztitle">{{ fatherquiz.title }}</h2>
+<br>
 <p class="alert alert-primary">Resultado:</p>
 <p class="alert alert-success">Você acertou {{ score }} de 5 questões!</p>
-<h2>{{ fatherquiz.title }}</h2>
-{% for quiz,allanswer in listing %}
-    <br>
-    <h3>{{ quiz.question }}</h3>
-    <ul>
-    {% for item in items|index:forloop.counter0|shuffle %}
-        {% if item == quiz.right_option and item == allanswer %}
-            <li class="right-alternative">{{ item }}</li>
-        {% elif item != quiz.right_option and item == allanswer  %}
-            <li class="wrong-alternative">{{ item }}</li>
-        {% elif item == quiz.right_option and item != allanswer %}
-            <li class="right-alternative">{{ item }}</li>
-        {% else %}
-            <li class="alternative">{{ item }}</li>
-        {% endif %}
-    {% endfor %}
-    </ul>
-{% endfor %}
+<a class="btn btn-light btn-lg btn-block details" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Ver detalhes</a>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            {% for quiz,allanswer in listing %}
+                <br>
+                <h4 class="question">{{ quiz.question }}</h4>
+                <ul>
+                    {% for item in items|index:forloop.counter0|shuffle %}
+                        {% if item == quiz.right_option and item == allanswer %}
+                            <li class="right-alternative">{{ item }}</li>
+                        {% elif item != quiz.right_option and item == allanswer  %}
+                            <li class="wrong-alternative">{{ item }}</li>
+                        {% elif item == quiz.right_option and item != allanswer %}
+                            <li class="right-alternative">{{ item }}</li>
+                        {% else %}
+                            <li class="alternative">{{ item }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
 
 {% else %}
 <form method="post" action="" novalidate>
-    <h2>{{ fatherquiz.title }}</h2>
+    <h2 class="quiztitle">{{ fatherquiz.title }}</h2>
     {% for quiz in quizes %}
         {% csrf_token %}
         <br>
-        <h3>{{ quiz.question }}</h3>
+        <h4 class="question">{{ quiz.question }}</h4>
         {% load shuffle %}
         {% for item in items|index:forloop.counter0|shuffle %}
-            <input type="radio" name="option-{{ quiz.id }}" value="{{ item }}"> {{ item }}<br>
+            <input class="alternative-radio" type="radio" name="option-{{ quiz.id }}" value="{{ item }}"> {{ item }}<br>
         {% endfor %}
     {% endfor %}
     <br>

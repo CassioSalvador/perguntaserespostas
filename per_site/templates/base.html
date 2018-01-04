@@ -14,20 +14,21 @@
   <body>
     <div class="container">
         <header class="header clearfix">
+          {% block nav %}
             <nav>
-              <ul class="nav nav-pills float-right">
+              <ul class="nav nav-pills float-right" id="nav">
                 <li class="nav-item">
-                  <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+                  {% block nav-home %}<a class="nav-link" href="/">Home</a>{% endblock nav-home %}
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/quiz_registration">Criar Quiz</a>
+                  {% block nav-createquiz %}<a class="nav-link" href="/quiz_registration">Criar Quiz</a>{% endblock nav-createquiz %}
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/quiz_list">Responder Quiz</a>
+                  {% block nav-answerquiz %}<a class="nav-link" href="/quiz_list">Responder Quiz</a>{% endblock nav-answerquiz %}
                 </li>
-                
               </ul>
             </nav>
+          {% endblock nav %}
             <h3 class="text-muted">Perguntas & Respostas</h3>
             <span style="float: right;">
                 {% if user.is_authenticated %}

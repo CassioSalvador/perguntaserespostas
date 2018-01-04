@@ -115,7 +115,7 @@ class AnswerQuiz(View):
         if 'submitted' in request.GET:
             submitted = True
         context = {
-            'fatherQuiz': fatherquiz,
+            'fatherquiz': fatherquiz,
             'quizes': quizes,
             'items': items,
             'submitted': submitted
@@ -144,7 +144,7 @@ class AnswerQuiz(View):
         submitted = True
         listing = zip(quizes,allanswers)
         context = {
-            'fatherQuiz': fatherquiz,
+            'fatherquiz': fatherquiz,
             'quizes': quizes,
             'items': items,
             'submitted': submitted,

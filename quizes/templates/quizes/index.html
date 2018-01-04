@@ -2,19 +2,42 @@
 
 {% block title %}Home Page{% endblock title %}
 
-{% block content %}
-<h2>Index page</h2>
-<h3>Instruções</h3>
-<h4>Criar um Quiz</h4>
-<ol>
-    <li>Faça Login</li>
-    <li>Clique na aba "Criar Quiz"</li>
-    <li>Preencha todos os campos</li>
-        <ol>
-            <li>Escreva uma pergunta</li>
-            <li>Adicione cinco possíveis repostas (uma verdadeira)</li>
-        </ol>
-    <li>Clique em "Salvar Quiz"</li>
-</ol>
+{% block nav-home %}<a class="nav-link active" href="/">Home</a>{% endblock %}
 
+{% block content %}
+<h1 class="title">Instruções</h1>
+<br>
+<hr>
+<br>
+
+<h2 class="quiztitle">Criar um Quiz</h2>
+<br>
+<ol>
+    <li class="instructions">Clique na aba "Criar Quiz";</li>
+    <li class="instructions">Preencha todos os campos;</li>
+        <ul>
+            <li class="instructions">Escreva suas perguntas nos campos destinados às perguntas;</li>
+            <li class="instructions">Adicione cinco possíveis repostas para cada pergunta;</li>
+            <ul>
+                <li class="instructions">Preencha o campo destinado à resposta correta de acordo;</li>
+                <li class="instructions">Para os quatro demais campos de resposta, adicione alternativas incorretas;</li>
+            </ul>
+        </ul>
+    <li class="instructions">Clique em "Salvar Quiz".</li>
+</ol>
+<br>
+<hr>
+<br>
+<h2 class="quiztitle">Responder um Quiz</h2>
+<br>
+<ol>
+    <li class="instructions">Clique na aba "Responder Quiz";</li>
+    <li class="instructions">Procure na lista o Quiz que deseja responder e clique no campo "ID" (você será redirecionado(a) para o Quiz em questão);</li>
+    <li class="instructions">Leia as perguntas e escolha as respostas que lhe forem mais apropriadas;</li>
+    <li class="instructions">Clique no botão "Ver resultado" para visualizar seu desempenho;</li>
+        <ul>
+            <li class="instructions">Obs: Após ser redirecionado(a) para a tela de resultados você poderá visualizar as respostas corretas para todas as perguntas clicando em "Ver detalhes".</li>
+        </ul>
+</ol>
+<br>
 {% endblock content %}

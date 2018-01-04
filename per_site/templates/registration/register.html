@@ -3,8 +3,11 @@
 {% block title %}Login Page{% endblock title %}
 
 {% block content %}
-<h1>Registro de Usuário</h1>
-    <p>Insira seu username e password para registrar.</p>
+<h1 class="title">Registro de Usuário</h1>
+<br>
+<hr>
+<br>
+    <p class="alert alert-primary loginmsg" role="alert">Insira um username e password para registrar.</p>
     <form method="post" action="">
         <table>
             <div class="form-group">
@@ -12,7 +15,7 @@
             </div>
             <tr>
                 <td>&nbsp;</td>
-                <td><input class="btn btn-primary" type="submit" value="Registrar"></td>
+                <td><input class="btn btn-primary loginbtn" type="submit" value="Registrar"></td>
             </tr>
         </table>
         <input type="hidden" name="next" value="{{ next }}" />
