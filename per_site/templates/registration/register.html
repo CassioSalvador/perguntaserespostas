@@ -7,17 +7,36 @@
 <br>
 <hr>
 <br>
-    <p class="alert alert-primary loginmsg" role="alert">Insira um username e password para registrar.</p>
+    <p class="alert alert-primary loginmsg" role="alert">Insira um nome de usuário e password para registrar.</p>
     <form method="post" action="">
-        <table>
-            <div class="form-group">
-                {{ form.as_table }}
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="id_username" class="reg-username">Usuário:</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="form-group">
+                    <label for="id_password1" class="reg-password1">Senha:</label>
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}
+                </div>
+                <div class="form-group">
+                    <label for="id_password2" class="reg-password2">Confirmar senha:</label>
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}
+                </div>
             </div>
-            <tr>
-                <td>&nbsp;</td>
-                <td><input class="btn btn-primary loginbtn" type="submit" value="Registrar"></td>
-            </tr>
-        </table>
+            <div class="col-md-6 col-sm-12">
+                <span class="helptext">Requerido. 150 caracteres ou menos. Letras, digitos e @/./+/-/_ apenas.</span>
+                <span class="helptext2">Sua senha não pode ser tão similar às suas outras informações pessoais.<br>
+                    Sua senha deve conter ao menos 8 caracteres.<br>
+                    Sua senha não pode ser uma senha comumente usada.<br>
+                    Sua senha não pode ser toda numérica.<br></span>
+                <span class="helptext3">Digite novamente a senha escolhida, para verificação.</span>
+            </div>
+        </div>
+        <input class="btn btn-primary reg-btn" type="submit" value="Registrar">
         <input type="hidden" name="next" value="{{ next }}" />
         {% csrf_token %}
     </form>

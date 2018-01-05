@@ -96,11 +96,42 @@ hr {
 }
 
 .loginbtn {
+    padding-left: 69px;
+    padding-right: 69px;
     margin-top: 10px;
+    margin-left: 62px;
 }
 
 .loginmsg {
     margin-bottom: 30px;
+}
+
+.reg-username {
+    margin-left: 64px;
+    font-weight: 450;
+}
+
+.reg-password1 {
+    margin-left: 76px;
+    font-weight: 450;
+}
+
+.reg-password2 {
+    font-weight: 450;
+}
+
+.reg-btn {
+    margin: 5px 0px 0px 128px;
+}
+
+.log-password {
+    font-weight: 450;
+    margin-left: 11px;
+}
+
+.log-username {
+    margin-bottom: 0px;
+    font-weight: 450;
 }
 
 /* Customize container */
@@ -112,7 +143,48 @@ hr {
 .container-narrow > hr {
     margin: 2rem 0;
 }
- 
+
+ul.errorlist {
+    margin: 0;
+    padding: 0;
+}
+.errorlist li {
+    border: 1px solid red;
+    color: red;
+    background: rgba(255, 0, 0, 0.15);
+    list-style-position: inside;
+    display: block;
+    font-size: 1.2em;
+    margin: 0 0 3px;
+    padding: 4px 5px;
+    text-align: center;    
+    border-radius: 3px;
+}
+
+.helptext {
+    text-align: right;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.helptext2 {
+    text-align: right;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.helptext3 {
+    text-align: right;
+    font-size: 12px;
+    display: inline-block;
+    width: 100%;
+}
+
+.errorlist{
+    width: 305px;
+    font-size: 12px;
+    margin-top: 10px !important;
+}
   
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 48em) {
