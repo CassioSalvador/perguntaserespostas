@@ -17,13 +17,16 @@ from django.conf.urls import include, url
 #from django.contrib import admin
 from quizes.admin import admin_site
 from django.views.generic import TemplateView
-from quizes.views import Register
+from quizes.views import Register, Profile
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
     url(r'^admin/', admin_site.urls),
     url(r'^register/success/$', TemplateView.as_view(template_name="registration/success.html"), name='register-success'),
     url(r'^register/$', Register.as_view(), name='register'),
+    #url(r'^profile/$', login_required(Profile.as_view()), name='profile'),
+    url(r'^profile/$', Profile.as_view(), name='profile'),
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^', include('quizes.urls')),
 ]

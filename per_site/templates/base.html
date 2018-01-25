@@ -34,7 +34,16 @@
             <h3 class="text-muted">Perguntas & Respostas</h3>
             <span style="float: right;">
                 {% if user.is_authenticated %}
-                  Olá, {{ user.username }}. <a href="{% url 'logout' %}?next=/">Log out</a>
+                  <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Olá, {{ user.username }}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'logout' %}?next=/">Logout</a>
+                    </div>
+                  </div>
                 {% else %}
                   Não está logado. <a href="{% url 'login' %}?next=/">Log in</a>
                 {% endif %}

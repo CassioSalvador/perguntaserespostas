@@ -14,7 +14,7 @@
 <p>Link para responder o quiz <a href="{{ fatherquizurl }}">{{ fatherquizurl }}</a></p>
 
 {% else %}
-<form action="" method="post" novalidate>
+<form action="" method="POST" novalidate>
     {% csrf_token %}
     <div class="form-group">
     {{ fatherquizform }}

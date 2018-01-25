@@ -185,7 +185,32 @@ ul.errorlist {
     font-size: 12px;
     margin-top: 10px !important;
 }
-  
+
+.teste {
+    overflow: hidden;
+    float: left;
+}
+
+.teste2 {
+    overflow: hidden;
+    float: left;
+}
+
+.profile_readonly {
+    margin: 0 0 0 0;
+    font-weight: bold;
+}
+
+.rdonly {
+    display: inline-block;
+    width: 90px;
+    padding: 0;
+}
+
+.prf_rdonly {
+    width: 100%;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 48em) {
     /* Remove the padding we set earlier */

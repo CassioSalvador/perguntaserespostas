@@ -7,7 +7,7 @@ from django.contrib.auth.admin import GroupAdmin, UserAdmin
 # Importing the AdminSite class to create a custom Admin page
 from django.contrib.admin import AdminSite
 
-from .models import Quiz, FatherQuiz
+from .models import Quiz, FatherQuiz, UserProfile
 
 # Creating a custom AdminSite
 class MyAdminSite(AdminSite):
@@ -38,8 +38,18 @@ class FatherQuizAdmin(admin.ModelAdmin):
     # Showing children quizes
     inlines = [QuizInline]
 
+class UserProfileAdmin(admin.ModelAdmin):
+    model = UserProfile
+    # Fields to be displayed during the listing
+    list_display = ('id', 'profile_image')
+    # Read-only fields
+    readonly_fields = ('id', 'profile_image')
+
 # Registering the FatherQuiz model and the FatherQuizAdmin (admin model) so it can be properly rendered
 admin_site.register(FatherQuiz, FatherQuizAdmin)
+
+# Registering UserProfile
+admin_site.register(UserProfile, UserProfileAdmin)
 
 # Registering the User and Group default models
 admin_site.register(Group, GroupAdmin)

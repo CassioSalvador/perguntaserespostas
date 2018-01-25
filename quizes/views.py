@@ -17,8 +17,10 @@ from django.contrib.auth.forms import UserCreationForm
 # Imports for Quiz listing
 from django.views.generic import ListView
 
-from .models import Quiz, FatherQuiz
-from .forms import QuizForm, FatherQuizForm
+from django.contrib.auth.models import User
+
+from .models import Quiz, FatherQuiz, UserProfile
+from .forms import QuizForm, FatherQuizForm, CustomUserForm, UserProfileForm
 
 # Create your views here.
 def index(request):
@@ -38,7 +40,9 @@ class Register(CreateView):
     success_url = reverse_lazy('register-success')
 
     def form_valid(self, form):
-        form.save()
+        get_id = form.save()
+        user_profile = UserProfile.objects.create(user=get_id)
+        user_profile.save()
         return HttpResponseRedirect(self.success_url)
 
 # Quiz registration
@@ -153,3 +157,72 @@ class AnswerQuiz(View):
             'listing': listing
         }
         return render(request, "quizes/answer.html", context)
+
+class Profile(View):
+    
+    def get(self, request, *args, **kwargs):
+        submitted = False
+        if request.user.is_authenticated():
+            # Getting the Target objects in the DB
+            target_user_profile = UserProfile.objects.get(user=request.user)
+            # Instanciating forms and passing current values
+            profile_form = UserProfileForm(instance=target_user_profile)
+            #profile_form = profileform_formclass(initial=target_user_profile)
+            #user_form = userform_formclass(initial=request.user)
+            user_form = CustomUserForm(instance=request.user)
+            user_form.id = request.user.id
+        else:
+            return HttpResponseRedirect('/login/?next=/')
+        if 'submitted' in request.GET:  
+            submitted = True
+        context = {
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'submitted': submitted
+        }
+        return render(request, "registration/profile.html", context)
+        
+    def post(self, request, *args, **kwargs):
+        submitted = False
+        if request.user.is_authenticated():
+            profile_form_formclass = UserProfileForm
+            user_form_formclass = CustomUserForm
+            # Getting the Target objects in the DB
+            target_user_profile = UserProfile.objects.get(user=request.user)
+            obj_user = target_user_profile.user
+            target_user = request.user
+            # Creating new forms and Getting the values passed throught POST method
+            profile_form = profile_form_formclass(request.user, request.POST, request.FILES)
+            user_form = user_form_formclass(request.user)
+            user_form.id = obj_user.id
+            user_form.username = obj_user.username
+            #return HttpResponse(user_form.first_name)
+            #if profile_form.is_valid() & user_form.is_valid():
+            #    return HttpResponse('Working')
+                # Validating forms and saving
+            #    if profile_form.is_valid() & user_form.is_valid():
+            profile = profile_form.save(commit=False)
+            usr = user_form.save(commit=False)
+            target_user_profile.user = target_user
+            target_user_profile.profile_image = profile.profile_image
+            target_user_profile.gender = profile.gender
+            target_user_profile.birthday = profile.birthday
+            target_user_profile.address = profile.address
+            target_user_profile.city = profile.city
+            target_user_profile.country = profile.country
+            target_user_profile.save()
+            target_user.first_name = usr.first_name
+            target_user.last_name = usr.last_name
+            target_user.email = usr.email
+            target_user.save()
+            return HttpResponseRedirect(reverse('quizes.views.Profile'))
+            #else:
+            #    return HttpResponse("Erro")
+            #submitted = True
+            #context = {
+            #    'submitted': submitted        
+            #}
+        else:
+            return HttpResponseRedirect('/login/?next=/')    
+        return render(request, "registration/profile.html", context)
+        
